@@ -4,15 +4,49 @@
 
 namespace KRM
 {
+	// Base Vector class only contains members that need to be specialized 
+	template<typename T, int Size>
+	class VectorBase
+	{
+	public:
+		T m_Data[Size];
+	protected:
+		~VectorBase() = default;
+	};
+
+	template<typename T>
+	class VectorBase<T, 2>
+	{
+	public:
+		union
+		{
+			T m_Data[2];
+			T x, y;
+		};
+	protected:
+		~VectorBase() = default;
+	};
+
+	template<typename T>
+	class VectorBase<T, 3>
+	{
+	public:
+		union
+		{
+			T m_Data[3];
+			T x, y, z;
+		};
+	protected:
+		~VectorBase() = default;
+	};
+
+	// Vector will contain all the members that don't need to be specialized
 	template<typename T, int size>
-	class Vector final
+	class Vector final : public VectorBase<T, size>
 	{
 	public:
 		static_assert(std::is_arithmetic<T>::value);
-		Vector()
-			: m_Data{}
-		{}
-
+		Vector();
 		Vector(const Vector& rhs);
 		Vector(Vector&& rhs);
 		Vector& operator=(const Vector& rhs);
@@ -28,6 +62,24 @@ namespace KRM
 		_NODISCARD Vector Reject(const Vector& v) const;
 		_NODISCARD Vector Project(const Vector& v) const;
 
+		template<std::enable_if_t<size == 3 || size == 2, bool> = true>
+		_NODISCARD auto Cross(const Vector& rhs) const
+		{
+			if constexpr (size == 3)
+			{
+				Vector output = Vector{};
+				output.m_Data[0] = this->m_Data[1] * rhs.m_Data[2] - this->m_Data[2] * rhs.m_Data[1];
+				output.m_Data[1] = -this->m_Data[2] * rhs.m_Data[0] + this->m_Data[0] * rhs.m_Data[2];
+				output.m_Data[2] = this->m_Data[0] * rhs.m_Data[1] - this->m_Data[1] * rhs.m_Data[0];
+				return output;
+			}
+
+			if constexpr (size == 2)
+			{
+				return this->m_Data[0] * rhs.m_Data[1] - this->m_Data[1] * rhs.m_Data[0];
+			}
+		}
+
 		// Member operator overloads
 		_NODISCARD Vector operator*(float scalar) const;
 		Vector& operator*=(float scalar);
@@ -38,38 +90,42 @@ namespace KRM
 
 		// Non-member operator overloads
 		friend _NODISCARD Vector operator*(float scalar, const Vector& rhs);
-
-		T m_Data[size];
 	private:
 	};
 	
 	// Member functions
 
 	template<typename T, int size>
-	inline Vector<T, size>::Vector(const Vector& rhs)
-		: m_Data{}
+	inline Vector<T, size>::Vector()
+		: VectorBase<T, size>::VectorBase{}
 	{
-		std::memcpy(m_Data, rhs.m_Data, size * sizeof(T));
+	}
+
+	template<typename T, int size>
+	inline Vector<T, size>::Vector(const Vector& rhs)
+		: VectorBase{}
+	{
+		std::memcpy(this->m_Data, rhs.m_Data, size * sizeof(T));
 	}
 
 	template<typename T, int size>
 	inline Vector<T, size>::Vector(Vector&& rhs)
-		: m_Data{}
+		: VectorBase<T, size>{}
 	{
-		std::memcpy(m_Data, rhs.m_Data, size * sizeof(T));
+		std::memcpy(this->m_Data, rhs.m_Data, size * sizeof(T));
 	}
 
 	template<typename T, int size>
 	inline Vector<T, size>& Vector<T, size>::operator=(const Vector& rhs)
 	{
-		std::memcpy(m_Data, rhs.m_Data, size * sizeof(T));
+		std::memcpy(this->m_Data, rhs.m_Data, size * sizeof(T));
 		return *this;
 	}
 
 	template<typename T, int size>
 	inline Vector<T, size>& Vector<T, size>::operator=(Vector&& rhs)
 	{
-		std::memcpy(m_Data, rhs.m_Data, size * sizeof(T));
+		std::memcpy(this->m_Data, rhs.m_Data, size * sizeof(T));
 		return *this;
 	}
 
@@ -94,7 +150,7 @@ namespace KRM
 		T dot{};
 		for (int i{}; i < size; ++i)
 		{
-			dot += m_Data[i] * rhs.m_Data[i];
+			dot += this->m_Data[i] * rhs.m_Data[i];
 		}
 		return dot;
 	}
@@ -119,7 +175,7 @@ namespace KRM
 		T sqrMagnitude{};
 		for (int i; i < size; ++i)
 		{
-			sqrMagnitude += m_Data[i] * m_Data[i];
+			sqrMagnitude += this->m_Data[i] * this->m_Data[i];
 		}
 		return sqrMagnitude;
 	}
@@ -159,7 +215,7 @@ namespace KRM
 	{
 		for (int i{}; i < size; ++i)
 		{
-			m_Data[i] *= scalar;
+			this->m_Data[i] *= scalar;
 		}
 		return *this;
 	}
@@ -177,7 +233,7 @@ namespace KRM
 	{
 		for (int i{}; i < size; ++i)
 		{
-			m_Data[i] -= rhs.m_Data[i];
+			this->m_Data[i] -= rhs.m_Data[i];
 		}
 		return *this;
 	}
@@ -195,7 +251,7 @@ namespace KRM
 	{
 		for (int i{}; i < size; ++i)
 		{
-			m_Data[i] += rhs.m_Data[i];
+			this->m_Data[i] += rhs.m_Data[i];
 		}
 		return *this;
 	}

@@ -1,7 +1,5 @@
 #pragma once
 #include "KRVector.h"
-#include "KRVector2.h"
-#include "KRVector3.h"
 
 namespace KRM
 {

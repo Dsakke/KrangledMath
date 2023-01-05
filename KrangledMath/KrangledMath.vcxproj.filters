@@ -23,13 +23,7 @@
     <ClInclude Include="KRMath\KRVector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="KRMath\KRVector2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="KRMath\KRMath.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="KRMath\KRVector3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

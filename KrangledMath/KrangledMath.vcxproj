@@ -148,8 +148,6 @@
   <ItemGroup>
     <ClInclude Include="KRMath\KRMath.h" />
     <ClInclude Include="KRMath\KRVector.h" />
-    <ClInclude Include="KRMath\KRVector2.h" />
-    <ClInclude Include="KRMath\KRVector3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
