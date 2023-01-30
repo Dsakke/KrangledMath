@@ -21,7 +21,7 @@ namespace KRM
 		union
 		{
 			T m_Data[2];
-			T x, y;
+			struct { T x, y; };
 		};
 	protected:
 		~VectorBase() = default;
@@ -34,7 +34,7 @@ namespace KRM
 		union
 		{
 			T m_Data[3];
-			T x, y, z;
+			struct { T x, y, z; };
 		};
 	protected:
 		~VectorBase() = default;
@@ -133,7 +133,8 @@ namespace KRM
 	inline Vector<T, size> Vector<T, size>::GetNormalized() const
 	{
 		static_assert(std::is_floating_point<T>::value);
-		return operator*(1 / Magnitude());
+		Vector output = *this;
+		return (output * (1 / Magnitude()));
 	}
 
 	template<typename T, int size>
@@ -207,7 +208,7 @@ namespace KRM
 	{
 		Vector<T, size> outVec{*this};
 		outVec *= scalar;
-		return *this;
+		return outVec;
 	}
 
 	template<typename T, int size>
