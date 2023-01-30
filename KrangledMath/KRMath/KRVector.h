@@ -103,7 +103,7 @@ namespace KRM
 
 	template<typename T, int size>
 	inline Vector<T, size>::Vector(const Vector& rhs)
-		: VectorBase{}
+		: VectorBase<T, size>{}
 	{
 		std::memcpy(this->m_Data, rhs.m_Data, size * sizeof(T));
 	}
