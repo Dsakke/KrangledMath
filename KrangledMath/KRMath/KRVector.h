@@ -173,7 +173,7 @@ namespace KRM
 	{
 		static_assert(std::is_floating_point<T>::value);
 		T sqrMagnitude{};
-		for (int i; i < size; ++i)
+		for (int i{}; i < size; ++i)
 		{
 			sqrMagnitude += this->m_Data[i] * this->m_Data[i];
 		}
