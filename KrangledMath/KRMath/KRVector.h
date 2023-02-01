@@ -4,6 +4,13 @@
 
 namespace KRM
 {
+
+	template<int i>
+	concept LargerThan2 = requires()
+	{
+		{ i > 2 };
+	};
+
 	// Base Vector class only contains members that need to be specialized 
 	template<typename T, int Size>
 	class VectorBase
@@ -41,12 +48,16 @@ namespace KRM
 	};
 
 	// Vector will contain all the members that don't need to be specialized
-	template<typename T, int size>
+	template<typename T, const int size>
 	class Vector final : public VectorBase<T, size>
 	{
 	public:
 		static_assert(std::is_arithmetic<T>::value);
 		Vector();
+
+
+		Vector(T x, T y) requires (size >= 2);
+		Vector(T x, T y, T z) requires (size >= 3);
 		Vector(const Vector& rhs);
 		Vector(Vector&& rhs);
 		Vector& operator=(const Vector& rhs);
@@ -62,8 +73,7 @@ namespace KRM
 		_NODISCARD Vector Reject(const Vector& v) const;
 		_NODISCARD Vector Project(const Vector& v) const;
 
-		template<std::enable_if_t<size == 3 || size == 2, bool> = true>
-		_NODISCARD auto Cross(const Vector& rhs) const
+		_NODISCARD Vector Cross(const Vector& rhs) const requires (size == 3 || size == 2)
 		{
 			if constexpr (size == 3)
 			{
@@ -99,6 +109,21 @@ namespace KRM
 	inline Vector<T, size>::Vector()
 		: VectorBase<T, size>::VectorBase{}
 	{
+	}
+
+	template<typename T, int size>
+	inline Vector<T, size>::Vector(T x, T y) requires (size >= 2)
+	{
+		this->m_Data[0] = x;
+		this->m_Data[1] = y;
+	}
+
+	template<typename T, int size>
+	inline Vector<T, size>::Vector(T x, T y, T z) requires (size >= 3)
+	{
+		this->m_Data[0] = x;
+		this->m_Data[1] = y;
+		this->m_Data[2] = z;
 	}
 
 	template<typename T, int size>
@@ -293,4 +318,5 @@ namespace KRM
 	{
 		return rhs * scalar;
 	}
+
 }
