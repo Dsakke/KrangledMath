@@ -77,8 +77,6 @@ namespace KRM
 		_NODISCARD Vector operator+(const Vector& rhs) const;
 		Vector& operator+=(const Vector& rhs);
 
-		// Non-member operator overloads
-		friend _NODISCARD Vector operator*(float scalar, const Vector& rhs);
 	private:
 	};
 	
@@ -293,12 +291,6 @@ namespace KRM
 	}
 
 	template<typename T, int size>
-	Vector<T, size> operator*(float scalar, const Vector<T, size>& rhs)
-	{
-		return rhs * scalar;
-	}
-
-	template<typename T, int size>
 	_NODISCARD auto Cross(const Vector<T, size>& lhs, const Vector<T, size>& rhs) requires (size == 2 || size == 3)
 	{}
 
@@ -325,4 +317,10 @@ namespace KRM
 	{
 		return KRM::Cross(*this, rhs);
 	}
+}
+
+template<typename T, int size>
+KRM::Vector<T, size> operator*(float scalar, const KRM::Vector<T, size>& rhs)
+{
+	return rhs * scalar;
 }
