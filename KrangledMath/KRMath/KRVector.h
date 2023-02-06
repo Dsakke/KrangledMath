@@ -4,13 +4,6 @@
 
 namespace KRM
 {
-
-	template<int i>
-	concept LargerThan2 = requires()
-	{
-		{ i > 2 };
-	};
-
 	// Base Vector class only contains members that need to be specialized 
 	template<typename T, int Size>
 	class VectorBase
@@ -73,22 +66,8 @@ namespace KRM
 		_NODISCARD Vector Reject(const Vector& v) const;
 		_NODISCARD Vector Project(const Vector& v) const;
 
-		_NODISCARD Vector Cross(const Vector& rhs) const requires (size == 3 || size == 2)
-		{
-			if constexpr (size == 3)
-			{
-				Vector output = Vector{};
-				output.m_Data[0] = this->m_Data[1] * rhs.m_Data[2] - this->m_Data[2] * rhs.m_Data[1];
-				output.m_Data[1] = -this->m_Data[2] * rhs.m_Data[0] + this->m_Data[0] * rhs.m_Data[2];
-				output.m_Data[2] = this->m_Data[0] * rhs.m_Data[1] - this->m_Data[1] * rhs.m_Data[0];
-				return output;
-			}
+		_NODISCARD auto Cross(const Vector& rhs) const requires (size == 3 || size == 2);
 
-			if constexpr (size == 2)
-			{
-				return this->m_Data[0] * rhs.m_Data[1] - this->m_Data[1] * rhs.m_Data[0];
-			}
-		}
 
 		// Member operator overloads
 		_NODISCARD Vector operator*(float scalar) const;
@@ -319,4 +298,31 @@ namespace KRM
 		return rhs * scalar;
 	}
 
+	template<typename T, int size>
+	_NODISCARD auto Cross(const Vector<T, size>& lhs, const Vector<T, size>& rhs) requires (size == 2 || size == 3)
+	{}
+
+	template<typename T>
+	_NODISCARD auto Cross(const Vector<T, 2>& lhs, const Vector<T, 2>& rhs)
+	{
+		return lhs.m_Data[0] * rhs.m_Data[1] - lhs.m_Data[1] * rhs.m_Data[0];
+	}
+
+	template<typename T>
+	_NODISCARD auto Cross(const Vector<T, 3>& lhs, const Vector<T, 3>& rhs)
+	{
+		Vector output = Vector{};
+
+		output.m_Data[0] = lhs.m_Data[1] * rhs.m_Data[2] - lhs.m_Data[2] * rhs.m_Data[1];
+		output.m_Data[1] = -lhs.m_Data[2] * rhs.m_Data[0] + lhs.m_Data[0] * rhs.m_Data[2];
+		output.m_Data[2] = lhs.m_Data[0] * rhs.m_Data[1] - lhs.m_Data[1] * rhs.m_Data[0];
+
+		return output;
+	}
+
+	template<typename T, int size>
+	_NODISCARD auto Vector<T, size>::Cross(const Vector& rhs) const requires (size == 3 || size == 2)
+	{
+		return KRM::Cross(*this, rhs);
+	}
 }
