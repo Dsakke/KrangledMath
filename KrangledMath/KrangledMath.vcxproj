@@ -146,6 +146,7 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="catch.hpp" />
     <ClInclude Include="KRMath\KRMath.h" />
     <ClInclude Include="KRMath\KRVector.h" />
   </ItemGroup>
