@@ -181,3 +181,19 @@ TEST_CASE("Dot Tests")
 		REQUIRE(vec2.Dot(vec3) - expectedResult23 < FLT_EPSILON);
 	}
 }
+
+TEST_CASE("AngleBetween tests")
+{
+	float pi = 3.14159265359f;
+
+	KRM::FVector2 vec0{ 1,0 };
+	KRM::FVector2 vec1{ -1,0 };
+
+	float angle0 = vec0.AngleBetween(vec1);
+	REQUIRE(abs(angle0 - pi) < FLT_EPSILON);
+
+	KRM::FVector2 vec2{ 0, 1 };
+
+	float angle1 = vec0.AngleBetween(vec2);
+	REQUIRE(abs(angle1 - pi / 2) < FLT_EPSILON);
+}
