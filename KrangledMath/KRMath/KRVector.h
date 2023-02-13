@@ -161,7 +161,7 @@ namespace KRM
 	template<typename T, int size>
 	inline T Vector<T, size>::AngleBetween(const Vector& rhs) const
 	{
-		return Dot(rhs) / (Magnitude() * rhs.Magnitude());
+		return acos(Dot(rhs) / (Magnitude() * rhs.Magnitude()));
 	}
 
 	template<typename T, int size>
