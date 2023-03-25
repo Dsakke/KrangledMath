@@ -197,3 +197,22 @@ TEST_CASE("AngleBetween tests")
 	float angle1 = vec0.AngleBetween(vec2);
 	REQUIRE(abs(angle1 - pi / 2) < FLT_EPSILON);
 }
+
+TEST_CASE("Reflect test")
+{
+	// Results that are compared with are calculated with https://www.redcrab-software.com/en/Calculator/Vector/2/Reflection
+
+	KRM::FVector2 vec0{ 1, 2 };
+	KRM::FVector2 normal0{ 1, 0 };
+
+	KRM::FVector2 result0 = vec0.Reflect(normal0);
+	REQUIRE(result0.x == -1.f);
+	REQUIRE(result0.y == 2.f);
+
+	KRM::FVector2 vec1{ 3, 2 };
+	KRM::FVector2 normal1{ 1, 0.5f };
+
+	KRM::FVector2 result1 = vec1.Reflect(normal1);
+	REQUIRE(result1.x == -5.f);
+	REQUIRE(result1.y == -2.f);
+}
