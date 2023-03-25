@@ -187,7 +187,7 @@ namespace KRM
 	inline Vector<T, size> Vector<T, size>::Reflect(const Vector& normal) const
 	{
 		static_assert(std::is_floating_point<T>::value);
-		return 2 * Dot(normal) * normal - *this;
+		return *this - 2 * Dot(normal) * normal;
 	}
 
 	template<typename T, int size>
