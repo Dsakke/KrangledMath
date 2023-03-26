@@ -216,3 +216,27 @@ TEST_CASE("Reflect test")
 	REQUIRE(result1.x == -5.f);
 	REQUIRE(result1.y == -2.f);
 }
+
+TEST_CASE("Projection test")
+{
+	// Results that are compared with are calculated with https://www.omnicalculator.com/math/vector-projection
+	double epsilon = 0.001;
+
+
+	KRM::DVector3 vec00{ 1, 3, 4 };
+	KRM::DVector3 vec01{ 2, 3, 1 };
+
+	KRM::DVector3 result0 = vec00.Project(vec01);
+	REQUIRE(abs(result0.x - 2.143) < epsilon);
+	REQUIRE(abs(result0.y - 3.214) < epsilon);
+	REQUIRE(abs(result0.z - 1.0714) < epsilon);
+
+	KRM::DVector3 vec10{ 3,1,1 };
+	KRM::DVector3 vec11{ 0,3,1 };
+
+	KRM::DVector3 result1 = vec10.Project(vec11);
+	REQUIRE(abs(result1.x) < epsilon);
+	REQUIRE(abs(result1.y - 1.2) < epsilon);
+	REQUIRE(abs(result1.z - 0.4) < epsilon);
+
+}
