@@ -202,7 +202,7 @@ namespace KRM
 	{
 		static_assert(std::is_floating_point<T>::value);
 		float magnitude = Magnitude();
-		return (dot(v) / magnitude) * ((*this) * (1 / magnitude));
+		return (Dot(v) / v.Dot(v)) * v;
 	}
 
 	template<typename T, int size>
