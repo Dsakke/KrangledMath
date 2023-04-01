@@ -303,7 +303,7 @@ namespace KRM
 	template<typename T>
 	_NODISCARD auto Cross(const Vector<T, 3>& lhs, const Vector<T, 3>& rhs)
 	{
-		Vector output = Vector{};
+		Vector<T, 3> output = Vector<T, 3>{};
 
 		output.m_Data[0] = lhs.m_Data[1] * rhs.m_Data[2] - lhs.m_Data[2] * rhs.m_Data[1];
 		output.m_Data[1] = -lhs.m_Data[2] * rhs.m_Data[0] + lhs.m_Data[0] * rhs.m_Data[2];
