@@ -240,3 +240,26 @@ TEST_CASE("Projection test")
 	REQUIRE(abs(result1.z - 0.4) < epsilon);
 
 }
+
+TEST_CASE("3D Cross Test")
+{
+	// Results that are compared with are calculated with: https://www.symbolab.com/solver/vector-cross-product-calculator
+	// We flip the Y coordinate because the site calculates left handed crossproduct and we want the right handed cross product
+	KRM::FVector3 vec00{ 1,3,4 };
+	KRM::FVector3 vec01{ 5,2,3 };
+
+	KRM::FVector3 result0 = vec00.Cross(vec01);
+
+	REQUIRE(result0.x == 1);
+	REQUIRE(result0.y == -17);
+	REQUIRE(result0.z == -13);
+
+	KRM::FVector3 vec10{ 21,31,41 };
+	KRM::FVector3 vec11{23, 2, 1.5f};
+
+	KRM::FVector3 result1 = vec10.Cross(vec11);
+
+	REQUIRE(result1.x == -35.5f);
+	REQUIRE(result1.y == -911.5);
+	REQUIRE(result1.z == -671.f);
+}
