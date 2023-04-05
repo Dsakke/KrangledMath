@@ -70,8 +70,8 @@ namespace KRM
 
 
 		// Member operator overloads
-		_NODISCARD Vector operator*(float scalar) const;
-		Vector& operator*=(float scalar);
+		_NODISCARD Vector operator*(T scalar) const;
+		Vector& operator*=(T scalar);
 		_NODISCARD Vector operator-(const Vector& rhs) const;
 		Vector& operator-=(const Vector& rhs);
 		_NODISCARD Vector operator+(const Vector& rhs) const;
@@ -201,12 +201,11 @@ namespace KRM
 	inline Vector<T, size> Vector<T, size>::Project(const Vector& v) const
 	{
 		static_assert(std::is_floating_point<T>::value);
-		float magnitude = Magnitude();
 		return (Dot(v) / v.Dot(v)) * v;
 	}
 
 	template<typename T, int size>
-	inline Vector<T, size> Vector<T, size>::operator*(float scalar) const
+	inline Vector<T, size> Vector<T, size>::operator*(T scalar) const
 	{
 		Vector<T, size> outVec{*this};
 		outVec *= scalar;
@@ -214,7 +213,7 @@ namespace KRM
 	}
 
 	template<typename T, int size>
-	inline Vector<T, size>& Vector<T, size>::operator*=(float scalar)
+	inline Vector<T, size>& Vector<T, size>::operator*=(T scalar)
 	{
 		for (int i{}; i < size; ++i)
 		{
@@ -320,7 +319,7 @@ namespace KRM
 }
 
 template<typename T, int size>
-KRM::Vector<T, size> operator*(float scalar, const KRM::Vector<T, size>& rhs)
+KRM::Vector<T, size> operator*(T scalar, const KRM::Vector<T, size>& rhs)
 {
 	return rhs * scalar;
 }
