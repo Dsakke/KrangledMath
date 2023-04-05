@@ -263,3 +263,67 @@ TEST_CASE("3D Cross Test")
 	REQUIRE(result1.y == -911.5);
 	REQUIRE(result1.z == -671.f);
 }
+
+TEST_CASE("Scalar multiplication")
+{
+	KRM::FVector3 vec0{ 1,3, 6 };
+	float scalar0 = 1.0f;
+	KRM::FVector3 result0 = vec0 * scalar0;
+
+	REQUIRE(result0.x == vec0.x);
+	REQUIRE(result0.y == vec0.y);
+	REQUIRE(result0.z == vec0.z);
+
+	KRM::FVector3 vec1{ 2, 3, 5 };
+	float scalar1 = 1.85f;
+	KRM::FVector3 result1 = scalar1 * vec1;
+
+	REQUIRE(result1.x == scalar1 * vec1.x);
+	REQUIRE(result1.y == scalar1 * vec1.y);
+	REQUIRE(result1.z == scalar1 * vec1.z);
+}
+
+TEST_CASE("Vector addition")
+{
+	KRM::FVector3 vec00{ 3.5f, 12.356f, 24.3f };
+	KRM::FVector3 vec01{ 3.5f, 23.24f, 1.5f };
+
+	KRM::FVector3 result0 = vec00 + vec01;
+
+	REQUIRE(result0.x == vec00.x + vec01.x);
+	REQUIRE(result0.y == vec00.y + vec01.y);
+	REQUIRE(result0.z == vec00.z + vec01.z);
+
+	KRM::DVector3 vec10{1.423, 3.645, 9.57};
+	KRM::DVector3 vec11{3.23, 4.12, 5.43};
+
+	KRM::DVector3 result1{ vec10 };
+	result1 += vec11;
+
+	REQUIRE(result1.x == vec10.x + vec11.x);
+	REQUIRE(result1.y == vec10.y + vec11.y);
+	REQUIRE(result1.z == vec10.z + vec11.z);
+}
+
+TEST_CASE("Vector substraction")
+{
+	KRM::FVector3 vec00{ 3.5f, 12.356f, 24.3f };
+	KRM::FVector3 vec01{ 3.5f, 23.24f, 1.5f };
+
+	KRM::FVector3 result0 = vec00 - vec01;
+
+	REQUIRE(result0.x == vec00.x - vec01.x);
+	REQUIRE(result0.y == vec00.y - vec01.y);
+	REQUIRE(result0.z == vec00.z - vec01.z);
+
+	KRM::DVector3 vec10{ 1.423, 3.645, 9.57 };
+	KRM::DVector3 vec11{ 3.23, 4.12, 5.43 };
+
+	KRM::DVector3 result1{ vec10 };
+	result1 -= vec11;
+
+	REQUIRE(result1.x == vec10.x - vec11.x);
+	REQUIRE(result1.y == vec10.y - vec11.y);
+	REQUIRE(result1.z == vec10.z - vec11.z);
+}
+
