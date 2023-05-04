@@ -68,6 +68,10 @@ namespace KRM
 
 		_NODISCARD auto Cross(const Vector& rhs) const requires (size == 3 || size == 2);
 
+		/// <summary>
+		/// No Range checks
+		/// </summary>
+		_NODISCARD T& operator[](uint32_t index);
 
 		// Member operator overloads
 		_NODISCARD Vector operator*(T scalar) const;
@@ -315,6 +319,11 @@ namespace KRM
 	_NODISCARD auto Vector<T, size>::Cross(const Vector& rhs) const requires (size == 3 || size == 2)
 	{
 		return KRM::Cross(*this, rhs);
+	}
+	template<typename T, int size>
+	inline T& Vector<T, size>::operator[](uint32_t index)
+	{
+		return this->m_Data[index];
 	}
 }
 
