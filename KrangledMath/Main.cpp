@@ -1,10 +1,14 @@
 #include "KRMath\KRMath.h"
 #include <string>
 #include<math.h>
-
+#include <vector>
+#include "KRMath/KRMatrix.h"
 #define CATCH_CONFIG_MAIN
 
 #include "catch.hpp"
+
+#define VectorTest
+#ifdef VectorTest
 
 
 TEST_CASE("Magnitude Tests")
@@ -327,3 +331,22 @@ TEST_CASE("Vector substraction")
 	REQUIRE(result1.z == vec10.z - vec11.z);
 }
 
+TEST_CASE("Swizzling")
+{
+	KRM::FVector2 vec0{ 5.f,4.f };
+	
+	KRM::FVector2 swizzled = vec0.xx;
+	REQUIRE(swizzled.y == 5.f);
+
+}
+
+#endif
+
+#ifdef MatrixTest
+TEST_CASE("Matrix Constructor")
+{
+	//KRM::FMatrix2x2 mat{};
+	KRM::FMatrix2x2 mat1{2, 2, 2, 2};
+	KRM::FMatrix2x2 mat2{2, 2, 2, 2};
+}
+#endif // DEBUG

@@ -4,41 +4,100 @@
 
 namespace KRM
 {
+	template<typename T, const int size>
+	class Vector;
+	template<typename VecType, unsigned int... Indexes>
+	class Swizzle
+	{
+		using Type = VecType::Type;
+		const static unsigned int VSize = VecType::Size;
+
+
+		static_assert(std::conjunction<std::bool_constant<Indexes < VSize>...>::value, "Index is out of range");
+	public:
+		operator Vector<Type, sizeof...(Indexes)>() const
+		{
+			Vector<Type, sizeof...(Indexes)> vec{ m_Data[Indexes]... };
+			return vec;
+		}
+
+		_NODISCARD Type operator[](unsigned int idx) const;
+	private:
+		Type m_Data[VSize];
+
+	};
+
+
 	// Base Vector class only contains members that need to be specialized 
-	template<typename T, int Size>
+	template<typename _T, int _Size>
 	class VectorBase
 	{
 	public:
-		T m_Data[Size];
+		const static unsigned int Size = _Size;
+		using Type = _T;
+
+
+		_T m_Data[_Size];
 	protected:
 		~VectorBase() = default;
 	};
 
-	template<typename T>
-	class VectorBase<T, 2>
+
+
+	template<typename _T>
+	class VectorBase<_T, 2>
 	{
 	public:
+		using Type = _T;
+
+		const static unsigned int Size = 2;
 		union
 		{
-			T m_Data[2];
-			struct { T x, y; };
+			_T m_Data[2];
+			struct { _T x, y; };
+#include "Swizzle2.inc.h"
+
 		};
 	protected:
 		~VectorBase() = default;
 	};
 
-	template<typename T>
-	class VectorBase<T, 3>
+	template<typename _T>
+	class VectorBase<_T, 3>
 	{
 	public:
+		using Type = _T;
+
+		const static unsigned int Size = 3;
+
 		union
 		{
-			T m_Data[3];
-			struct { T x, y, z; };
+			_T m_Data[3];
+			struct { _T x, y, z; };
+#include "Swizzle3.inc.h"
 		};
 	protected:
 		~VectorBase() = default;
 	};
+
+	template<typename _T>
+	class VectorBase<_T, 4>
+	{
+	public:
+		using Type = _T;
+
+		const static unsigned int Size = 3;
+
+		union
+		{
+			_T m_Data[4];
+			struct { _T x, y, z, w; };
+#include "Swizzle4.inc.h"
+		};
+	protected:
+		~VectorBase() = default;
+	};
+
 
 	// Vector will contain all the members that don't need to be specialized
 	template<typename T, const int size>
@@ -80,7 +139,6 @@ namespace KRM
 		Vector& operator-=(const Vector& rhs);
 		_NODISCARD Vector operator+(const Vector& rhs) const;
 		Vector& operator+=(const Vector& rhs);
-
 	private:
 	};
 	
@@ -324,6 +382,11 @@ namespace KRM
 	inline T& Vector<T, size>::operator[](uint32_t index)
 	{
 		return this->m_Data[index];
+	}
+	template<typename VecType, unsigned int... Indexes>
+	inline VecType::Type Swizzle<VecType, Indexes...>::operator[](unsigned int idx) const
+	{
+		return m_Data[Indexes[idx]];
 	}
 }
 

@@ -29,5 +29,17 @@
     <ClInclude Include="catch.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="KRMath\KRMatrix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="KRMath\Swizzle2.inc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="KRMath\Swizzle3.inc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="KRMath\Swizzle4.inc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

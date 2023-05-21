@@ -148,7 +148,11 @@
   <ItemGroup>
     <ClInclude Include="catch.hpp" />
     <ClInclude Include="KRMath\KRMath.h" />
+    <ClInclude Include="KRMath\KRMatrix.h" />
     <ClInclude Include="KRMath\KRVector.h" />
+    <ClInclude Include="KRMath\Swizzle2.inc.h" />
+    <ClInclude Include="KRMath\Swizzle3.inc.h" />
+    <ClInclude Include="KRMath\Swizzle4.inc.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
