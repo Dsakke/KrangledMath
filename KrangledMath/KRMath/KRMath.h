@@ -1,5 +1,6 @@
 #pragma once
 #include "KRVector.h"
+#include "KRRect.h"
 
 namespace KRM
 {
@@ -10,4 +11,9 @@ namespace KRM
 	using DVector3 = Vector<double, 3>;
 	using FVector4 = Vector<float, 4>;
 	using DVector4 = Vector<double, 4>;
+
+	// Rect types
+	using IRect = Rect<int>;
+	using FRect = Rect<float>;
+	using DRect = Rect<double>;
 }
